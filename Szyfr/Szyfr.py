@@ -64,3 +64,4 @@ if __name__ == "__main__":
     print("Unikalne litery: {}".format(unique_letters))
 
     calculate(equations[0], [1,2,3,4,5,6,7,8,9] );
+    calculate(equations[0], [1,2,3,4,5,6,7,9,8] );
