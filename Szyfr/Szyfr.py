@@ -18,7 +18,7 @@ def calculate(equation, current_mapping):
     
     letter_mapping = {}
     
-    for i in range(0, len(current_mapping) - 1):
+    for i in range(0, len(current_mapping)):
         letter = chr(ord('A') + i)
         letter_mapping[letter] = current_mapping[i]
 
@@ -63,5 +63,23 @@ if __name__ == "__main__":
     print("Wzory: {}".format(equations))
     print("Unikalne litery: {}".format(unique_letters))
 
-    calculate(equations[0], [1,2,3,4,5,6,7,8,9] );
-    calculate(equations[0], [1,2,3,4,5,6,7,9,8] );
+    numbers = [1,2,3,4,5,6,7,8,9]
+
+    for _ in range(n):
+        new_permutations = []
+        for perm in permutations:
+            for num in numbers:
+                if num not in perm:
+                    new_permutations.append(perm + [num])
+        permutations = new_permutations
+
+        print("Liczba permutacji dla {} liter: {}".format(len(unique_letters), len(permutations)))
+
+    # is_valid = True
+    # for eq in equations:
+    #     is_valid = is_valid & calculate(eq, szyfr );
+
+    # print("Wynik końcowy: {}".format(is_valid))
+    # if (is_valid):
+    #     print("Znaleziono prawidłowe przypisanie liter!")
+    #     exit;
