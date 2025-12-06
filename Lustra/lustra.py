@@ -1,6 +1,5 @@
 import copy
 
-
 def parse_input(input_g, input_m):
     g = int(input_g.split(' ')[0])
     m = []
@@ -19,11 +18,12 @@ def get_move_name(move):
         return '[▶]right'
 
 
-def check_if_mirrors_works(garden_to_check: list[list[int]], draw_each_step: bool = False) -> bool:
+def check_if_mirrors_works(garden_to_check: list[list[int]], number_of_mirrors: int, draw_each_step: bool = False) -> bool:
     is_valid: bool = True
     max_size: int = len(garden_to_check)
     current_position = (0, 0) # init position inside garden
     prev_position = (-1, 0) # init position outside garden
+    number_of_visited_mirrors = 0
     move = (1, 0) # first move
     move_top = (-1, 0)
     move_bottom = (1, 0)
@@ -34,11 +34,11 @@ def check_if_mirrors_works(garden_to_check: list[list[int]], draw_each_step: boo
     while is_valid:
         step += 1
         current_angle: int = garden_to_check[current_position[0]][current_position[1]]
-        print(f'Step: {step} | move: {get_move_name(move)} | current position: {current_position} | current angle: {current_angle}')
+        number_of_visited_mirrors += 1 if current_angle != 0 else 0
+        print(f'Step: {step} | move: {get_move_name(move)} | current position: {current_position} | current angle: {current_angle} | visited mirrors: {number_of_visited_mirrors}')
 
         if draw_each_step:
             draw_garden(garden_to_check, current_position)
-
 
         if current_angle == 45:
             if prev_position[0] == current_position[0]:
@@ -55,7 +55,7 @@ def check_if_mirrors_works(garden_to_check: list[list[int]], draw_each_step: boo
                 # horizontal move
                 move = move_right if prev_position[0] < current_position[0] else move_left
 
-        if current_position[0] == meta[0] and current_position[1] == meta[1]:
+        if current_position[0] == meta[0] and current_position[1] == meta[1] and number_of_visited_mirrors == number_of_mirrors:
             print('Meta!')
             return True
 
@@ -63,8 +63,9 @@ def check_if_mirrors_works(garden_to_check: list[list[int]], draw_each_step: boo
 
         current_position = (current_position[0] + move[0], current_position[1] + move[1])
 
-        is_valid = (0 <= current_position[0] < max_size and
-                    0 <= current_position[1] < max_size)
+        is_valid = ((0 <= current_position[0] < max_size)
+                    and (0 <= current_position[1] < max_size))
+
         if not is_valid:
             print(f'Next move {get_move_name(move)} is outside of the garden')
 
@@ -163,7 +164,7 @@ if __name__ == '__main__':
                 print(f'\nMove mirror from {mirror_orig_position} to {empty_field} with angle {angle}')
                 garden = copy.deepcopy(original_garden) # restore original garden configuration
                 move_mirror(garden, mirror_orig_position, empty_field, angle)
-                is_meta = check_if_mirrors_works(garden, True)
+                is_meta = check_if_mirrors_works(garden, len(mirrors),True)
 
                 if is_meta:
                     print('----------------------------------------------')
