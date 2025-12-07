@@ -34,6 +34,7 @@ def check_if_mirrors_works(mirror_orig_position, mirror_new_position) -> bool:
     prev_col = 0
     number_of_visited_mirrors = 0
     move = (1, 0)
+    visited_fields = set()
 
     while True:
         row, col = current_position
@@ -57,8 +58,11 @@ def check_if_mirrors_works(mirror_orig_position, mirror_new_position) -> bool:
             else:
                 move = MOVE_RIGHT if prev_row < row else MOVE_LEFT
 
-        prev_row = current_position[0]
-        prev_col = current_position[1]
+        if (current_position, move) in visited_fields:
+            return False
+
+        visited_fields.add((current_position, move))
+        prev_row, prev_col = row, col
         current_position = (row + move[0], col + move[1])
 
 '''
