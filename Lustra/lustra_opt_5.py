@@ -3,12 +3,6 @@ MOVE_BOTTOM = (1, 0)
 MOVE_LEFT = (0, -1)
 MOVE_RIGHT = (0, 1)
 
-def get_angle(mirrors_list: set[tuple], check_row: int, check_col: int) -> int:
-    for r, c, ma in mirrors_list:
-        if c == check_col and r == check_row:
-            return ma
-    return 0
-
 
 def check_if_mirrors_works(mirrors_positions, start_from: tuple[int,int], vector:int, not_visited):
     current_position = start_from
