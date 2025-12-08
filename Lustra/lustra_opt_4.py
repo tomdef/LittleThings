@@ -72,7 +72,8 @@ if __name__ == '__main__':
 
     if visited_fields_1 and visited_fields_2 and all_visited_mirrors:
         for mirror in mirrors:
-            if mirror not in all_visited_mirrors:
+            (x, y, _) = mirror
+            if (x,y) not in all_visited_mirrors:
                 unused_mirror = mirror
                 break
 
